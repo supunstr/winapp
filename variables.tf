@@ -21,7 +21,7 @@ variable "subnet" {}
 variable "sg_group_name" {}
 
 variable "vdilist" {
-    type = list(string)
+  type = list(string)
 }
 variable "portlist" {
   type = list(number)
@@ -29,3 +29,9 @@ variable "portlist" {
 variable "whitelist" {
   type = list(string)
 }
+
+# S3 bucket 
+variable "s3_bucket" {}
+variable "role_policy" {}
+variable "role_name" {}
+variable "instance_profile" {}
