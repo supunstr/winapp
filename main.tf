@@ -10,14 +10,18 @@ locals {
 
 # Creating Tosca EC2 instance
 resource "aws_instance" "tosca" {
-  instance_type   = var.instance_type_tosca
-  ami             = var.ami_tosca
-  subnet_id       = var.subnet
+  instance_type          = var.instance_type_tosca
+  ami                    = var.ami_tosca
+  subnet_id              = var.subnet
   vpc_security_group_ids = [aws_security_group.winappsg.id]
+  iam_instance_profile   = aws_iam_instance_profile.profile.id
+  key_name               = "vmtest"
 
   root_block_device {
     volume_size = var.volume_tosca
   }
+
+  depends_on = [aws_s3_bucket.bucket]
 
   tags = merge(
     var.common_tags,
@@ -33,14 +37,18 @@ resource "aws_instance" "tosca" {
 
 # Creating Qtest EC2 instance
 resource "aws_instance" "qtest" {
-  instance_type   = var.instance_type_qtest
-  ami             = var.ami_qtest
-  subnet_id       = var.subnet
+  instance_type          = var.instance_type_qtest
+  ami                    = var.ami_qtest
+  subnet_id              = var.subnet
   vpc_security_group_ids = [aws_security_group.winappsg.id]
+  iam_instance_profile   = aws_iam_instance_profile.profile.id
+  key_name               = "vmtest"
 
   root_block_device {
     volume_size = var.volume_qtest
   }
+
+  depends_on = [aws_s3_bucket.bucket]
 
   tags = merge(
     var.common_tags,
@@ -58,7 +66,7 @@ resource "aws_instance" "qtest" {
 resource "aws_security_group" "winappsg" {
   name        = var.sg_group_name
   description = "Allow VDI and other inbound and everything outbound"
- vpc_id      = var.vpc_id
+  vpc_id      = var.vpc_id
 
   dynamic "ingress" {
     for_each = local.start
