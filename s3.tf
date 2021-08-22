@@ -42,7 +42,7 @@ resource "aws_s3_bucket_public_access_block" "public" {
 
 resource "aws_iam_role_policy" "win_policy" {
   name = var.role_policy
-  role = aws_iam_role.win_role.id
+  role = aws_iam_role.winrole.id
 
   policy = jsonencode({
     "Version" : "2012-10-17",
@@ -51,16 +51,16 @@ resource "aws_iam_role_policy" "win_policy" {
         "Sid" : "AllowS3WinBackup",
         "Effect" : "Allow",
         "Action" : "s3:*",
-        "Resource": [
-            "arn:aws:s3:::${var.s3_bucket}",
-            "arn:aws:s3:::${var.s3_bucket}/*"
-            ]
+        "Resource" : [
+          "arn:aws:s3:::${var.s3_bucket}",
+          "arn:aws:s3:::${var.s3_bucket}/*"
+        ]
       }
     ]
   })
 }
 
-resource "aws_iam_role" "win_role" {
+resource "aws_iam_role" "winrole" {
   name = var.role_name
 
   assume_role_policy = jsonencode({
@@ -80,5 +80,5 @@ resource "aws_iam_role" "win_role" {
 
 resource "aws_iam_instance_profile" "profile" {
   name = var.instance_profile
-  role = aws_iam_role.win_role.name
+  role = aws_iam_role.winrole.name
 }

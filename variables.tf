@@ -7,16 +7,28 @@ variable "vpc_id" {}
 variable "common_tags" {
   type = map(string)
 }
+
+######### Tosca
 variable "name_tosca" {}
 variable "instance_type_tosca" {}
 variable "ami_tosca" {}
 variable "volume_tosca" {}
+variable "sg_group_tosca" {}
+variable "tosca_app_port" {
+  type = list(number)
+}
 
+######## Qtest
 variable "name_qtest" {}
 variable "instance_type_qtest" {}
 variable "ami_qtest" {}
 variable "volume_qtest" {}
+variable "sg_group_qtest" {}
+variable "qtest_app_port" {
+  type = list(number)
+}
 
+####### Common variables
 variable "subnet" {}
 variable "sg_group_name" {}
 
